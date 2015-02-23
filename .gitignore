@@ -1,0 +1,6 @@
+env/
+testproject/
+
+manage.py
+
+*.sqlite3
