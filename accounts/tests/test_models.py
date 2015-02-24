@@ -18,14 +18,14 @@ class RoleTestCase(TestCase):
         self.assertTrue(self.role_3.supersedes(self.role_3))
         self.assertTrue(self.role_4.supersedes(self.role_4))
 
-        # Top down comparisons
+        # Top-down comparisons
         self.assertTrue(self.role_1.supersedes(self.role_2))
         self.assertTrue(self.role_1.supersedes(self.role_3))
         self.assertTrue(self.role_1.supersedes(self.role_4))
         self.assertTrue(self.role_3.supersedes(self.role_4))
         self.assertTrue(self.role_3.supersedes(self.role_4))
 
-        # Horizontal comparisons
+        # Horizontal and bottom-up comparisons
         self.assertFalse(self.role_2.supersedes(self.role_1))
         self.assertFalse(self.role_2.supersedes(self.role_3))
         self.assertFalse(self.role_2.supersedes(self.role_4))

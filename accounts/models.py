@@ -21,13 +21,10 @@ class Role(models.Model):
 
 
 class Account(models.Model):
+    role = models.ForeignKey(Role)
     email = models.EmailField(max_length=255, unique=True)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
-
-    # For our purposes, the account only really needs a single group
-
-    role = models.ForeignKey(Role)
 
     """
     is_superuser = models.BooleanField('superuser status', default=False,
