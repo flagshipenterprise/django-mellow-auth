@@ -1,5 +1,5 @@
 import factory
-from accounts.models import Role
+from accounts.roles import Role
 
 
 class RoleFactory(factory.Factory):
@@ -8,5 +8,6 @@ class RoleFactory(factory.Factory):
         # We should all look up to it.
         model = Role
 
+    slug = factory.Sequence(lambda n: 'role%d' % n)
     name = factory.Sequence(lambda n: 'Role #%d' % n)
     parent = None

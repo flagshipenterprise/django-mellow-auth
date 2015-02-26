@@ -1,27 +1,9 @@
 from django.db import models
-
-
-class Role(models.Model):
-    name = models.CharField(max_length=255, unique=True)
-    parent = models.ForeignKey('Role', null=True, blank=True)
-
-    def supersedes(self, other):
-        """
-        Returns true if this role has at least as many permissions as "other".
-        This is dependent on the truth of two conditions: 1) self is at the
-        same or higher level than other, and 2) that self can be crossed on a
-        rootward traversal of the role heap.
-        """
-        parent = other
-        while parent:
-            if self is parent:
-                return True
-            parent = parent.parent
-        return False
+from accounts.roles import Role
 
 
 class Account(models.Model):
-    role = models.ForeignKey(Role)
+    role = models.IntegerField(choices=Role.get_roles())
     email = models.EmailField(max_length=255, unique=True)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
