@@ -4,18 +4,7 @@ Django Mellow Auth
 
 ## Overview
 
-A role/organization based user account system for Django. Conceived originally by DVColgan, and written by StettJawa. Named for the reasons highlighted in the following conversation.
-
-> stettjawa: what should it be called...
->
->
-> dvcolgan:  well jesse and i started making it sort of
-> and then didn't continue because of the above discussion
-> we called it "django-mellow-auth"
-> because you don't have to set the user's password
-> and you can relax and be stoned
-> instead of worrying about setting a password
-
+A role/organization based user account system for Django. Conceived originally by DVColgan, and written by StettJawa.
 
 ## The Role Hierarchy
 
