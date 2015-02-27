@@ -18,6 +18,18 @@ class Account(auth.models.AbstractBaseUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name']
 
+    def get_role(self):
+        return Role.get_role(self.role)
+
+    @property
+    def is_superuser(self):
+        """
+        If the user's role is not superseded by any role, then it must be a
+        superuser. Instead of checking for a specific role, we make the
+        get_superuser() method general by checking for this condition.
+        """
+        return self.get_role().parent is None
+
     """
     is_superuser = models.BooleanField('superuser status', default=False,
         help_text='Designates that this user has all permissions without '

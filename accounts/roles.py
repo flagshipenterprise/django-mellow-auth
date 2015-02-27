@@ -22,9 +22,6 @@ class Role(object):
         same or higher level than other, and 2) that self can be crossed on a
         rootward traversal of the role heap.
         """
-        #
-        # TODO: Add check for circular loop
-        #
         parent = other
         while parent:
             if self is parent:
