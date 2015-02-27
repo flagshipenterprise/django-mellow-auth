@@ -4,7 +4,7 @@ from accounts.roles import Role
 from accounts.settings import DEFAULT_MELLOW_ROLES
 
 
-class RoleTestCase(TestCase):
+class SettingsTestCase(TestCase):
     def test_default_settings(self):
         roles = Role.list_roles()
         self.assertEquals(len(roles), 3)

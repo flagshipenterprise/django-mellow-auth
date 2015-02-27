@@ -4,7 +4,6 @@ from accounts.roles import Role
 
 
 class RoleTestCase(TestCase):
-
     def setUp(self):
         Role.clear_roles()
         self.role_1 = RoleFactory.create()
