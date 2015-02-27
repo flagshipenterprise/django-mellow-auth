@@ -51,7 +51,6 @@ class Role(object):
         Takes a config list (like MELLOW_ROLES set in the settings.py file as
         according to the README), and builds up the list of Roles.
         """
-
         # Remove old roles
         Role.clear_roles()
 

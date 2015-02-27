@@ -4,3 +4,4 @@ testproject/
 manage.py
 
 *.sqlite3
+*.pyc
