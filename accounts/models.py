@@ -1,12 +1,22 @@
 from django.db import models
+from django.contrib import auth
 from accounts.roles import Role
 
 
-class Account(models.Model):
-    role = models.IntegerField(choices=Role.get_roles())
+class AccountManager(auth.models.BaseUserManager):
+    pass
+
+
+class Account(auth.models.AbstractBaseUser):
+    role = models.CharField(max_length=255, choices=Role.get_roles())
     email = models.EmailField(max_length=255, unique=True)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
+
+    objects = AccountManager()
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['first_name', 'last_name']
 
     """
     is_superuser = models.BooleanField('superuser status', default=False,

@@ -4,18 +4,16 @@
 class Role(object):
 
     # Static role data
-    __role_id = 0
-    __roles_by_id = {}
-    __roles_by_slug = {}
+    __roles = {}
 
     def __init__(self, slug, name, parent=None):
         self.slug = slug
         self.name = name
         self.parent = parent
-        self.id = Role.__role_id
-        Role.__role_id = Role.__role_id + 1
-        Role.__roles_by_id[self.id] = self
-        Role.__roles_by_slug[self.slug] = self
+        Role.__roles[self.slug] = self
+
+    def __str__(self):
+        return self.name
 
     def supersedes(self, other):
         """
@@ -24,6 +22,9 @@ class Role(object):
         same or higher level than other, and 2) that self can be crossed on a
         rootward traversal of the role heap.
         """
+        #
+        # TODO: Add check for circular loop
+        #
         parent = other
         while parent:
             if self is parent:
@@ -33,27 +34,19 @@ class Role(object):
 
     @staticmethod
     def clear_roles():
-        Role.__role_id = 0
-        Role.__roles_by_id = {}
-        Role.__roles_by_slug = {}
+        Role.__roles = {}
 
     @staticmethod
     def list_roles():
-        return Role.__roles_by_slug.keys()
+        return Role.__roles.keys()
 
     @staticmethod
-    def get_role(id=None, slug=None):
-        role_id = id
-        role_slug = slug
-        if role_id:
-            return Role.__roles_by_id[role_id]
-        elif role_slug:
-            return Role.__roles_by_slug[role_slug]
-        return None
+    def get_role(slug):
+        return Role.__roles[slug]
 
     @staticmethod
     def get_roles():
-        return Role.__roles_by_id.items()
+        return Role.__roles.items()
 
     @staticmethod
     def set_roles(config):
@@ -69,5 +62,5 @@ class Role(object):
         for role_config in config:
             parent = None
             if len(role_config) > 2:
-                parent = Role.get_role(slug=role_config[2])
+                parent = Role.get_role(role_config[2])
             role = Role(role_config[0], role_config[1], parent)

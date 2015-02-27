@@ -11,18 +11,13 @@ class RoleTestCase(TestCase):
         self.role_3 = RoleFactory.create(parent=self.role_1)
         self.role_4 = RoleFactory.create(parent=self.role_3)
 
-    def test_role_id_assignment(self):
-        self.assertEquals(self.role_2.id, self.role_1.id + 1)
-        self.assertEquals(self.role_3.id, self.role_2.id + 1)
-        self.assertEquals(self.role_4.id, self.role_3.id + 1)
-
     def test_get_roles(self):
         roles = Role.get_roles()
         self.assertEquals(len(roles), 4)
-        self.assertTrue((self.role_1.id, self.role_1) in roles)
-        self.assertTrue((self.role_2.id, self.role_2) in roles)
-        self.assertTrue((self.role_3.id, self.role_3) in roles)
-        self.assertTrue((self.role_4.id, self.role_4) in roles)
+        self.assertTrue((self.role_1.slug, self.role_1) in roles)
+        self.assertTrue((self.role_2.slug, self.role_2) in roles)
+        self.assertTrue((self.role_3.slug, self.role_3) in roles)
+        self.assertTrue((self.role_4.slug, self.role_4) in roles)
 
     def test_list_roles(self):
         roles = Role.list_roles()
