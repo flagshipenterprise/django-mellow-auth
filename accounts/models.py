@@ -1,11 +1,12 @@
 from django.db import models
-from django.contrib import auth
+#from django.contrib import auth
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Group
 from django.utils import timezone
 from accounts.roles import Role
 from accounts.services import make_activation_key
 
 
-class AccountManager(auth.models.BaseUserManager):
+class AccountManager(BaseUserManager):
     def create_user(self, email, first_name, last_name, password=None):
         now = timezone.now()
         account = self.model(
@@ -24,7 +25,7 @@ class AccountManager(auth.models.BaseUserManager):
         return account
 
 
-class Account(auth.models.AbstractBaseUser):
+class Account(AbstractBaseUser):
     role = models.CharField(max_length=255, choices=Role.get_roles())
     email = models.EmailField(max_length=255, unique=True)
     first_name = models.CharField(max_length=255)
@@ -37,7 +38,7 @@ class Account(auth.models.AbstractBaseUser):
 
     is_superuser = models.BooleanField('superuser status', default=False,
         help_text='Designates that this user has all permissions without '
-                    'explicitly assigning them.')
+                  'explicitly assigning them.')
 
     is_staff = models.BooleanField(
         default=False,
@@ -49,7 +50,7 @@ class Account(auth.models.AbstractBaseUser):
                   'Unselect this instead of deleting accounts.')
 
     groups = models.ManyToManyField(
-        auth.models.Group,
+        Group,
         verbose_name='groups',
         blank=True, help_text='The groups this user belongs to. A user will '
                               'get all permissions granted to each of '
