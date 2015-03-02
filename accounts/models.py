@@ -1,10 +1,27 @@
 from django.db import models
 from django.contrib import auth
+from django.utils import timezone
 from accounts.roles import Role
+from accounts.services import make_activation_key
 
 
 class AccountManager(auth.models.BaseUserManager):
-    pass
+    def create_user(self, email, first_name, last_name, password=None):
+        now = timezone.now()
+        account = self.model(
+            email=email,
+            first_name=first_name,
+            last_name=last_name,
+            is_staff=False,
+            is_active=True,
+            last_login=now,
+            date_joined=now,
+            role=Account.ADMINISTRATOR
+        )
+
+        account.set_password(password)
+        account.save(using=self._db)
+        return account
 
 
 class Account(auth.models.AbstractBaseUser):
@@ -18,35 +35,26 @@ class Account(auth.models.AbstractBaseUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name']
 
-    def get_role(self):
-        return Role.get_role(self.role)
-
-    @property
-    def is_superuser(self):
-        """
-        If the user's role is not superseded by any role, then it must be a
-        superuser. Instead of checking for a specific role, we make the
-        get_superuser() method general by checking for this condition.
-        """
-        return self.get_role().parent is None
-
-    """
     is_superuser = models.BooleanField('superuser status', default=False,
         help_text='Designates that this user has all permissions without '
-                  'explicitly assigning them.')
-    groups = models.ManyToManyField(Group, verbose_name='groups',
-        blank=True, help_text='The groups this user belongs to. A user will '
-                                'get all permissions granted to each of '
-                                'their groups.',
-        related_name="user_set", related_query_name="user")
+                    'explicitly assigning them.')
 
     is_staff = models.BooleanField(
         default=False,
         help_text='Designates whether the user can log into this admin site.')
+
     is_active = models.BooleanField(
         default=True,
         help_text='Designates whether this user should be treated as active. '
                   'Unselect this instead of deleting accounts.')
+
+    groups = models.ManyToManyField(
+        auth.models.Group,
+        verbose_name='groups',
+        blank=True, help_text='The groups this user belongs to. A user will '
+                              'get all permissions granted to each of '
+                              'their groups.',
+        related_name="user_set", related_query_name="user")
 
     date_joined = models.DateTimeField(default=timezone.now)
 
@@ -54,9 +62,39 @@ class Account(auth.models.AbstractBaseUser):
 
     objects = AccountManager()
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name', 'last_name']
+    def __str__(self):
+        return self.get_full_name()
 
+    def get_role(self):
+        return Role.get_role(self.role)
+
+    def get_username(self):
+        return self.email
+
+    def get_short_name(self):
+        return self.first_name
+
+    def get_full_name(self):
+        return '%s %s' % (self.first_name, self.last_name)
+
+    def send_activation_email(self, domain, applications, total_documents):
+        #if self.role == Account.CLIENT:
+        #    applications = LoanApplication.objects.filter(client=self.client, status=LoanApplication.PENDING)
+        #    total_documents = ApplicationDocument.objects.filter(application__client=self.client).count()
+
+        send_templated_mail(
+            template_name='new_client_password_link',
+            from_email=ADMIN_EMAIL_SENDER,
+            recipient_list=[self.email],
+            context={
+                'domain': domain,
+                'account': self,
+                'applications': applications,
+                'total_documents': total_documents,
+            }
+        )
+
+    """
     def is_employee(self):
         return (self.role == Account.EMPLOYEE or
                 self.role == Account.ADMINISTRATOR)
