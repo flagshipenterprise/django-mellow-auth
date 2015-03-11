@@ -130,10 +130,11 @@ class AccountChangePasswordView(
         form.save()
         return super(AccountChangePasswordView, self).form_valid(form)
 
-
+"""
 class FeatureRequestView(
         LoginRequiredMixin,
         MinimumRoleRequiredMixin,
         TemplateView):
     template_name = 'feature_request.html'
     role = Account.EMPLOYEE
+"""
