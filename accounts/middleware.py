@@ -10,7 +10,7 @@ class ImpersonateMiddleware(object):
 
         user_role = Role.get_role(request.user.role)
         admin_role = Role.get_role(MELLOW_ADMIN_ROLE)
-        if and user_role.supersedes(admin_role):
+        if user_role.supersedes(admin_role):
             if '__impersonate' in request.GET:
                 request.session['impersonate_id'] = int(request.GET['__impersonate'])
             elif '__unimpersonate' in request.GET:
