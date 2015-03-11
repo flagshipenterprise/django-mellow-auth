@@ -6,7 +6,7 @@ from loantrac.settings import ADMIN_EMAIL_SENDER
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.views import password_reset
 from accounts.models import Account
-from accounts.settings import MELLOW_MINIMUM_ACCOUNT_CREATE_ROLE
+from accounts.settings import MELLOW_ADMIN_ROLE
 from accounts.forms import (
     CreateUnactivatedAccountForm,
     AccountActivateForm,
@@ -29,7 +29,7 @@ class AccountListView(
         MinimumRoleRequiredMixin,
         ListView):
     model = Account
-    role = Account.ADMINISTRATOR
+    role = MELLOW_ADMIN_ROLE
     context_object_name = 'accounts'
 
 
@@ -40,7 +40,7 @@ class AccountCreateView(
         CreateView):
     model = Account
     template_name = 'accounts/account_create.html'
-    role = MELLOW_MINIMUM_ACCOUNT_CREATE_ROLE
+    role = MELLOW_ADMIN_ROLE
     form_class = CreateUnactivatedAccountForm
 
     def get_success_url(self):
@@ -87,7 +87,7 @@ class AccountResendActivationEmailView(
     model = Account
     permanent = False
     url = reverse_lazy('account_list')
-    role = Account.ADMINISTRATOR
+    role = MELLOW_ADMIN_ROLE
 
     def post(self, request, *args, **kwargs):
         account = get_object_or_404(Account, pk=self.kwargs['pk'])
@@ -101,13 +101,7 @@ class AccountUpdateView(
         UpdateView):
     model = Account
     form_class = AccountUpdateForm
-    role = Account.EMPLOYEE
-
-    def get_success_url(self):
-        if self.request.user.role <= Account.EMPLOYEE:
-            return reverse_lazy('client_list')
-        else:
-            return reverse_lazy('account_list')
+    role = MELLOW_ADMIN_ROLE
 
     def get_form_kwargs(self):
         kwargs = super(AccountUpdateView, self).get_form_kwargs()
@@ -115,6 +109,7 @@ class AccountUpdateView(
         return kwargs
 
 
+"""
 class AccountChangePasswordView(
         LoginRequiredMixin,
         UpdateView):
@@ -130,7 +125,6 @@ class AccountChangePasswordView(
         form.save()
         return super(AccountChangePasswordView, self).form_valid(form)
 
-"""
 class FeatureRequestView(
         LoginRequiredMixin,
         MinimumRoleRequiredMixin,
