@@ -1,4 +1,5 @@
 from accounts.models import Account
+from accounts.roles import Role
 from accounts.settings import MELLOW_ADMIN_ROLE
 
 
