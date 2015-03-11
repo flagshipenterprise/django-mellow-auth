@@ -5,7 +5,9 @@ from accounts.settings import MELLOW_ADMIN_ROLE
 
 class ImpersonateMiddleware(object):
     def process_request(self, request):
-        if request.user.is_authenticated() and Role.get_role(request.user.role).supersedes(MELLOW_ADMIN_ROLE):
+        user_role = Role.get_role(request.user.role)
+        admin_role = Role.get_role(MELLOW_ADMIN_ROLE)
+        if request.user.is_authenticated() and user_role.supersedes(admin_role):
             if '__impersonate' in request.GET:
                 request.session['impersonate_id'] = int(request.GET['__impersonate'])
             elif '__unimpersonate' in request.GET:
