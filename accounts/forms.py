@@ -7,7 +7,7 @@ class CreateUnactivatedAccountForm(forms.ModelForm):
 
     class Meta:
         model = Account
-        fields = ('email', 'first_name', 'last_name', 'role', 'client')
+        fields = ('email', 'first_name', 'last_name', 'role')
 
     def __init__(self, *args, **kwargs):
         super(CreateUnactivatedAccountForm, self).__init__(*args, **kwargs)
@@ -54,7 +54,7 @@ class AccountUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Account
-        fields = ('email', 'first_name', 'last_name', 'role', 'client')
+        fields = ('email', 'first_name', 'last_name', 'role')
 
     def __init__(self, *args, **kwargs):
         self.account = kwargs.pop('account', None)
@@ -64,7 +64,6 @@ class AccountUpdateForm(forms.ModelForm):
             # If you are not an admin you can't see roles
             if self.account.role < Account.ADMINISTRATOR:
                 del self.fields['role']
-                del self.fields['client']
 
             else:
                 # If you are an administrator or up you can change roles for
