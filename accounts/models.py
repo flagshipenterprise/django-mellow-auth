@@ -1,5 +1,4 @@
 from django.db import models
-#from django.contrib import auth
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Group
 from django.utils import timezone
 from accounts.roles import Role

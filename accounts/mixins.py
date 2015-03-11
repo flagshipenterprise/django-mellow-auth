@@ -2,6 +2,27 @@ from django.core.exceptions import PermissionDenied, ImproperlyConfigured
 from accounts.roles import Role
 
 
+def minimum_role_required(role):
+    def _minimum_role_required(view_func):
+        def wrapped_view_func(request, *args, **kwargs):
+
+            # Ensure that the user is authenticated
+            if not request.user.is_authenticated():
+                raise PermissionDenied
+
+            # Get the required role and the user's role
+            required_role = Role.get_role(role)
+            user_role = Role.get_role(request.user.role)
+
+            if not user_role.supersedes(required_role):
+                raise PermissionDenied
+
+            return view_func(request, *args, **kwargs)
+
+        return wrapped_view_func
+    return _minimum_role_required
+
+
 class MinimumRoleRequiredMixin(object):
     role = None
 
@@ -27,5 +48,4 @@ class MinimumRoleRequiredMixin(object):
         if not user_role.supersedes(required_role):
             raise PermissionDenied
 
-        # Execute the normal dispatch method
         return super(MinimumRoleRequiredMixin, self).dispatch(request, **kwargs)

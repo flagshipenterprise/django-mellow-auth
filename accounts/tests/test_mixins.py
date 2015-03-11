@@ -38,3 +38,8 @@ class MinimumRoleRequiredMixinTestCase(WebTest):
 
     def test_better_permissions(self):
         response = self.app.get(reverse('minimum-role-required'), user=self.superadmin, status=200)
+
+    def test_min_role_req_func_view(self):
+        response = self.app.get(reverse('minimum-role-required-func'), user=self.superadmin, status=200)
+        response = self.app.get(reverse('minimum-role-required-func'), user=self.admin, status=200)
+        response = self.app.get(reverse('minimum-role-required-func'), user=self.user, status=403)
