@@ -50,7 +50,7 @@ class AccountActivateForm(forms.ModelForm):
 
 # Some duplication in this form
 class AccountUpdateForm(forms.ModelForm):
-    role = forms.ChoiceField(choices=Account.ROLES)
+    role = forms.ChoiceField(choices=Role.get_roles())
 
     class Meta:
         model = Account
