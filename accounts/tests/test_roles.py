@@ -1,6 +1,7 @@
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from .factories import RoleFactory
 from accounts.roles import Role
+from accounts.settings import DEFAULT_MELLOW_ROLES
 
 
 class RoleTestCase(TestCase):
@@ -11,6 +12,7 @@ class RoleTestCase(TestCase):
         self.role_3 = RoleFactory.create(parent=self.role_1)
         self.role_4 = RoleFactory.create(parent=self.role_3)
 
+    @override_settings(MELLOW_ROLES=DEFAULT_MELLOW_ROLES)
     def test_get_roles(self):
         roles = Role.get_roles()
         self.assertEquals(len(roles), 4)
@@ -19,6 +21,7 @@ class RoleTestCase(TestCase):
         self.assertTrue((self.role_3.slug, self.role_3) in roles)
         self.assertTrue((self.role_4.slug, self.role_4) in roles)
 
+    @override_settings(MELLOW_ROLES=DEFAULT_MELLOW_ROLES)
     def test_list_roles(self):
         roles = Role.list_roles()
         self.assertEquals(len(roles), 4)
@@ -27,6 +30,7 @@ class RoleTestCase(TestCase):
         self.assertTrue(self.role_3.slug in roles)
         self.assertTrue(self.role_4.slug in roles)
 
+    @override_settings(MELLOW_ROLES=DEFAULT_MELLOW_ROLES)
     def test_set_roles(self):
         mellow_roles = [
             ('superadmin', 'Super Administrator'),
@@ -50,6 +54,7 @@ class RoleTestCase(TestCase):
         self.assertEquals(Role.get_role(slug='user').parent.slug, 'admin')
         self.assertEquals(Role.get_role(slug='client').parent.slug, 'admin')
 
+    @override_settings(MELLOW_ROLES=DEFAULT_MELLOW_ROLES)
     def test_role_comparisons(self):
 
         # Self comparisons
