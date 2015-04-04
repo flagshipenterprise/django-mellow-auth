@@ -1,7 +1,7 @@
 from django.test import TestCase, override_settings
 from .factories import RoleFactory
-from accounts.roles import Role
-from accounts.settings import DEFAULT_MELLOW_ROLES
+from mellow.roles import Role
+from mellow.settings import DEFAULT_MELLOW_ROLES
 
 
 class RoleTestCase(TestCase):

@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from accounts.tests.views import (
+from mellow.tests.views import (
     MinimumRoleRequiredView,
     InvalidMinimumRoleRequiredView,
     minimum_role_required_func_view,

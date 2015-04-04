@@ -1,6 +1,6 @@
 import factory
-from accounts.roles import Role
-from accounts.models import Account
+from mellow.roles import Role
+from mellow.models import Account
 
 
 class RoleFactory(factory.Factory):

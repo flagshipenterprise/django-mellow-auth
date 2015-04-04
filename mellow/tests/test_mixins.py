@@ -3,18 +3,18 @@ from django.core.urlresolvers import reverse
 from django_webtest import WebTest
 from django.test import override_settings
 from webtest import AppError
-from accounts.mixins import MinimumRoleRequiredMixin
-from accounts.roles import Role
-from accounts.tests.factories import AccountFactory
-from accounts.tests.views import (
+from mellow.mixins import MinimumRoleRequiredMixin
+from mellow.roles import Role
+from mellow.tests.factories import AccountFactory
+from mellow.tests.views import (
     MinimumRoleRequiredView,
     InvalidMinimumRoleRequiredView,
 )
-from accounts.settings import DEFAULT_MELLOW_ROLES
+from mellow.settings import DEFAULT_MELLOW_ROLES
 
 
 class MinimumRoleRequiredMixinTestCase(WebTest):
-    urls = 'accounts.tests.urls'
+    urls = 'mellow.tests.urls'
 
     @override_settings(MELLOW_ROLES=DEFAULT_MELLOW_ROLES)
     def setUp(self):

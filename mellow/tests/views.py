@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.views.generic.base import View
-from accounts.mixins import MinimumRoleRequiredMixin, minimum_role_required
+from mellow.mixins import MinimumRoleRequiredMixin, minimum_role_required
 
 
 class MinimumRoleRequiredView(MinimumRoleRequiredMixin, View):
