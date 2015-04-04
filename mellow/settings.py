@@ -1,5 +1,5 @@
 from django.conf import settings
-from accounts.roles import Role
+from mellow.roles import Role
 
 # Role tree
 DEFAULT_MELLOW_ROLES = [

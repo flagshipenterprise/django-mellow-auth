@@ -1,6 +1,6 @@
 from django import forms
-from accounts.models import Account
-from accounts.roles import Role
+from mellow.models import Account
+from mellow.roles import Role
 
 
 class CreateUnactivatedAccountForm(forms.ModelForm):

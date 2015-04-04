@@ -1,8 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Group
 from django.utils import timezone
-from accounts.roles import Role
-from accounts.services import make_activation_key
+from mellow.roles import Role
+from mellow.services import make_activation_key
 
 
 class AccountManager(BaseUserManager):

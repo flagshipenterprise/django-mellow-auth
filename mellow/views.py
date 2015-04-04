@@ -5,19 +5,19 @@ from loantrac import settings
 from loantrac.settings import ADMIN_EMAIL_SENDER
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.views import password_reset
-from accounts.models import Account
-from accounts.settings import MELLOW_ADMIN_ROLE
-from accounts.forms import (
+from templated_email import send_templated_mail
+from common.functions import get_object_or_None
+from common.mixins import GETToFormInitialMixin
+from mellow.models import Account
+from mellow.settings import MELLOW_ADMIN_ROLE
+from mellow.forms import (
     CreateUnactivatedAccountForm,
     AccountActivateForm,
     AccountUpdateForm,
     AccountChangePasswordForm,
 )
 
-from templated_email import send_templated_mail
-from common.functions import get_object_or_None
-from common.mixins import GETToFormInitialMixin
-from accounts.mixins import (
+from mellow.mixins import (
     MinimumRoleRequiredMixin,
 )
 

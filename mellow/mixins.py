@@ -1,5 +1,5 @@
 from django.core.exceptions import PermissionDenied, ImproperlyConfigured
-from accounts.roles import Role
+from mellow.roles import Role
 
 
 def minimum_role_required(role):

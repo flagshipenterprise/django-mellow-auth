@@ -1,6 +1,6 @@
-from accounts.models import Account
-from accounts.roles import Role
-from accounts.settings import MELLOW_ADMIN_ROLE
+from mellow.models import Account
+from mellow.roles import Role
+from mellow.settings import MELLOW_ADMIN_ROLE
 
 
 class ImpersonateMiddleware(object):

@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models, migrations
 import django.utils.timezone
-import accounts.services
+import mellow.services
 
 
 class Migration(migrations.Migration):
@@ -27,7 +27,7 @@ class Migration(migrations.Migration):
                 ('is_staff', models.BooleanField(default=False, help_text=b'Designates whether the user can log into this admin site.')),
                 ('is_active', models.BooleanField(default=True, help_text=b'Designates whether this user should be treated as active. Unselect this instead of deleting accounts.')),
                 ('date_joined', models.DateTimeField(default=django.utils.timezone.now)),
-                ('activation_key', models.CharField(default=accounts.services.make_activation_key, max_length=40)),
+                ('activation_key', models.CharField(default=mellow.services.make_activation_key, max_length=40)),
                 ('groups', models.ManyToManyField(related_query_name=b'user', related_name='user_set', to='auth.Group', blank=True, help_text=b'The groups this user belongs to. A user will get all permissions granted to each of their groups.', verbose_name=b'groups')),
             ],
             options={
